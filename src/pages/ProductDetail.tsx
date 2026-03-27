@@ -73,7 +73,7 @@ const ProductDetail = () => {
               <div className="flex gap-3 items-center">
                 <span className="text-xs font-body tracking-wide uppercase text-muted-foreground w-20">Stock</span>
                 {product.inStock ? (
-                  <span className="flex items-center gap-1 text-sm font-body text-green-700">
+                  <span className="flex items-center gap-1 text-sm font-body text-gold-dark">
                     <Check size={14} /> In Stock
                   </span>
                 ) : (
