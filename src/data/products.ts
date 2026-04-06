@@ -7,12 +7,14 @@ import candleSet from "@/assets/products/candle-set.jpg";
 import sideTable from "@/assets/products/side-table.jpg";
 
 export type ProductCategory = "decor" | "furniture" | "setups" | "lifestyle";
+export type RoomType = "living-room" | "bedroom" | "dining" | "bathroom" | "office" | "any";
 
 export interface Product {
   id: string;
   name: string;
   price: number;
   category: ProductCategory;
+  room: RoomType;
   images: string[];
   description: string;
   material: string;
@@ -29,12 +31,22 @@ export const categories = [
   { id: "lifestyle" as const, name: "Lifestyle", description: "Home comfort & functional pieces" },
 ];
 
+export const rooms = [
+  { id: "living-room" as const, name: "Living Room" },
+  { id: "bedroom" as const, name: "Bedroom" },
+  { id: "dining" as const, name: "Dining" },
+  { id: "bathroom" as const, name: "Bathroom" },
+  { id: "office" as const, name: "Office" },
+  { id: "any" as const, name: "Any Room" },
+];
+
 export const products: Product[] = [
   {
     id: "1",
     name: "Aria Ceramic Vase Set",
     price: 45000,
     category: "decor",
+    room: "living-room",
     images: [vaseCeramic],
     description: "Elegant hand-crafted ceramic vase duo featuring a stunning gold wave accent. Perfect as a statement piece on consoles, shelves, or dining tables.",
     material: "Premium ceramic with gold-plated accent",
@@ -48,6 +60,7 @@ export const products: Product[] = [
     name: "Abstract Warmth Wall Art",
     price: 85000,
     category: "decor",
+    room: "living-room",
     images: [wallArt],
     description: "Hand-painted abstract canvas in warm earth tones with walnut wood frame. Adds depth and artistic character to any living space.",
     material: "Canvas, acrylic paint, walnut wood frame",
@@ -61,6 +74,7 @@ export const products: Product[] = [
     name: "Soleil Gold Pendant Light",
     price: 120000,
     category: "decor",
+    room: "dining",
     images: [pendantLight],
     description: "Statement sunburst pendant light in brushed gold finish. Creates dramatic shadows and a luxurious ambiance in any room.",
     material: "Brushed brass, E27 bulb socket",
@@ -73,6 +87,7 @@ export const products: Product[] = [
     name: "Luna Accent Chair",
     price: 280000,
     category: "furniture",
+    room: "living-room",
     images: [accentChair],
     description: "Sculptural accent chair with buttery soft cream upholstery and tapered brass legs. A perfect balance of comfort and modern elegance.",
     material: "Premium fabric, high-density foam, brass legs",
@@ -86,6 +101,7 @@ export const products: Product[] = [
     name: "Aurelia Round Mirror",
     price: 95000,
     category: "decor",
+    room: "bedroom",
     images: [goldMirror],
     description: "Stunning round wall mirror with double gold frame and subtle LED backlighting. Elevates hallways, bedrooms, and living spaces.",
     material: "Beveled glass, gold-plated steel frame, LED",
@@ -98,6 +114,7 @@ export const products: Product[] = [
     name: "Lumière Candle Collection",
     price: 35000,
     category: "lifestyle",
+    room: "any",
     images: [candleSet],
     description: "Set of four luxury scented candles in hand-poured soy wax with gold-lidded glass jars. Notes of vanilla, amber, sandalwood & bergamot.",
     material: "Soy wax, glass jars, gold-plated lids",
@@ -110,6 +127,7 @@ export const products: Product[] = [
     name: "Carrara Marble Side Table",
     price: 175000,
     category: "furniture",
+    room: "living-room",
     images: [sideTable],
     description: "Elegant round side table featuring genuine Carrara marble top and base with a sleek brushed gold pedestal. A timeless accent piece.",
     material: "Carrara marble, brushed gold steel",
@@ -122,6 +140,7 @@ export const products: Product[] = [
     name: "Serenity Throw Pillow Set",
     price: 28000,
     category: "lifestyle",
+    room: "bedroom",
     images: [vaseCeramic],
     description: "Set of four premium textured throw pillows in warm cream and beige tones. Mix of herringbone, waffle, and linen weave textures.",
     material: "Cotton-linen blend, polyester fill",
