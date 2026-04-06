@@ -177,6 +177,8 @@ const Admin = () => {
     return result;
   }, [items, orderSearch, orderCategoryFilter, orderPriceSort]);
 
+  if (!authed) return <AdminLogin onLogin={() => setAuthed(true)} />;
+
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || []);
     if (files.length === 0) return;
