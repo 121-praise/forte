@@ -19,7 +19,7 @@ const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const searchRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const { totalItems, setIsCartOpen } = useCart();
+  const { totalItems } = useCart();
   const location = useLocation();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
@@ -37,7 +37,7 @@ const Navbar = () => {
     ? products.filter((p) =>
         p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         p.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        p.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        p.categories.some((c) => c.toLowerCase().includes(searchQuery.toLowerCase())) ||
         p.material.toLowerCase().includes(searchQuery.toLowerCase())
       ).slice(0, 6)
     : [];
@@ -60,26 +60,15 @@ const Navbar = () => {
   return (
     <header className="sticky top-0 z-50 bg-background/90 backdrop-blur-md border-b border-border">
       <div className="container flex items-center justify-between h-16 md:h-20">
-        {/* Mobile menu */}
-        <button
-          onClick={() => setMobileOpen(!mobileOpen)}
-          className="md:hidden p-2 text-foreground"
-          aria-label="Toggle menu"
-        >
+        <button onClick={() => setMobileOpen(!mobileOpen)} className="md:hidden p-2 text-foreground" aria-label="Toggle menu">
           {mobileOpen ? <X size={22} /> : <Menu size={22} />}
         </button>
 
-        {/* Logo */}
         <Link to="/" className="flex flex-col items-center leading-none">
-          <span className="font-display text-lg md:text-xl tracking-wide text-foreground">
-            INTERIOR
-          </span>
-          <span className="text-[10px] md:text-xs tracking-[0.3em] text-gold font-body font-medium uppercase">
-            by Forte
-          </span>
+          <span className="font-display text-lg md:text-xl tracking-wide text-foreground">INTERIOR</span>
+          <span className="text-[10px] md:text-xs tracking-[0.3em] text-gold font-body font-medium uppercase">by Forte</span>
         </Link>
 
-        {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
             <Link
@@ -94,17 +83,11 @@ const Navbar = () => {
           ))}
         </nav>
 
-        {/* Actions */}
         <div className="flex items-center gap-3">
           <div ref={searchRef} className="relative">
-            <button
-              onClick={() => setSearchOpen(!searchOpen)}
-              className="p-2 text-foreground hover:text-gold transition-colors"
-              aria-label="Search"
-            >
+            <button onClick={() => setSearchOpen(!searchOpen)} className="p-2 text-foreground hover:text-gold transition-colors" aria-label="Search">
               <Search size={20} />
             </button>
-
             <AnimatePresence>
               {searchOpen && (
                 <motion.div
@@ -129,18 +112,10 @@ const Navbar = () => {
                       {searchResults.map((product) => (
                         <button
                           key={product.id}
-                          onClick={() => {
-                            navigate(`/product/${product.id}`);
-                            setSearchOpen(false);
-                            setSearchQuery("");
-                          }}
+                          onClick={() => { navigate(`/product/${product.id}`); setSearchOpen(false); setSearchQuery(""); }}
                           className="w-full flex items-center gap-3 px-4 py-3 hover:bg-muted/50 transition-colors text-left"
                         >
-                          <img
-                            src={product.images[0]}
-                            alt={product.name}
-                            className="w-10 h-10 rounded object-cover flex-shrink-0"
-                          />
+                          <img src={product.images[0]} alt={product.name} className="w-10 h-10 rounded object-cover flex-shrink-0" />
                           <div className="min-w-0">
                             <p className="text-sm font-body text-foreground truncate">{product.name}</p>
                             <p className="text-xs text-muted-foreground font-body">
@@ -152,31 +127,24 @@ const Navbar = () => {
                     </div>
                   )}
                   {searchQuery.trim().length > 0 && searchResults.length === 0 && (
-                    <div className="p-4 text-center text-sm text-muted-foreground font-body border-t border-border">
-                      No products found
-                    </div>
+                    <div className="p-4 text-center text-sm text-muted-foreground font-body border-t border-border">No products found</div>
                   )}
                 </motion.div>
               )}
             </AnimatePresence>
           </div>
 
-          <button
-            onClick={() => setIsCartOpen(true)}
-            className="relative p-2 text-foreground hover:text-gold transition-colors"
-            aria-label="Cart"
-          >
+          <Link to="/cart" className="relative p-2 text-foreground hover:text-gold transition-colors" aria-label="Cart">
             <ShoppingBag size={20} />
             {totalItems > 0 && (
               <span className="absolute -top-0.5 -right-0.5 w-5 h-5 rounded-full bg-gold text-accent-foreground text-xs flex items-center justify-center font-body font-medium">
                 {totalItems}
               </span>
             )}
-          </button>
+          </Link>
         </div>
       </div>
 
-      {/* Mobile menu */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div

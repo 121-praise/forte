@@ -24,8 +24,8 @@ const Shop = () => {
 
   const filtered = useMemo(() => {
     let result = products;
-    if (selectedCategory) result = result.filter((p) => p.category === selectedCategory);
-    if (selectedRoom) result = result.filter((p) => p.room === selectedRoom || p.room === "any");
+    if (selectedCategory) result = result.filter((p) => p.categories.includes(selectedCategory));
+    if (selectedRoom) result = result.filter((p) => p.rooms.includes(selectedRoom) || p.rooms.includes("any"));
     const range = priceRanges[priceRange];
     result = result.filter((p) => p.price >= range.min && p.price < range.max);
     if (stockOnly) result = result.filter((p) => p.inStock);
@@ -44,7 +44,6 @@ const Shop = () => {
   return (
     <>
       <div className="container py-6 md:py-10">
-        {/* Header */}
         <div className="mb-6">
           <p className="text-gold text-sm font-body tracking-[0.25em] uppercase mb-2">Collection</p>
           <h1 className="font-display text-3xl md:text-4xl text-foreground">
@@ -55,9 +54,7 @@ const Shop = () => {
           <p className="text-muted-foreground font-body text-sm mt-1">{filtered.length} products</p>
         </div>
 
-        {/* Top Filters Bar */}
         <div className="flex flex-wrap items-center gap-3 mb-8 pb-6 border-b border-border">
-          {/* Category Filter */}
           <div className="relative">
             <select
               value={selectedCategory || ""}
@@ -71,8 +68,6 @@ const Shop = () => {
             </select>
             <ChevronDown size={14} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
           </div>
-
-          {/* Price Filter */}
           <div className="relative">
             <select
               value={priceRange}
@@ -85,8 +80,6 @@ const Shop = () => {
             </select>
             <ChevronDown size={14} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
           </div>
-
-          {/* Room Filter */}
           <div className="relative">
             <select
               value={selectedRoom || ""}
@@ -100,20 +93,12 @@ const Shop = () => {
             </select>
             <ChevronDown size={14} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
           </div>
-
-          {/* Availability Filter */}
           <label className="flex items-center gap-2 cursor-pointer border border-border rounded-md px-4 py-2">
-            <input
-              type="checkbox"
-              checked={stockOnly}
-              onChange={(e) => setStockOnly(e.target.checked)}
-              className="accent-gold w-4 h-4"
-            />
+            <input type="checkbox" checked={stockOnly} onChange={(e) => setStockOnly(e.target.checked)} className="accent-gold w-4 h-4" />
             <span className="text-sm font-body text-foreground whitespace-nowrap">In stock only</span>
           </label>
         </div>
 
-        {/* Products Grid */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
           {filtered.map((product) => (
             <ProductCard key={product.id} product={product} />
