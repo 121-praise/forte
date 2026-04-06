@@ -147,8 +147,6 @@ const Admin = () => {
   const [orderCategoryFilter, setOrderCategoryFilter] = useState<ProductCategory | "">("");
   const [orderPriceSort, setOrderPriceSort] = useState<"" | "asc" | "desc">("");
 
-  if (!authed) return <AdminLogin onLogin={() => setAuthed(true)} />;
-
   const filteredProducts = useMemo(() => {
     let result = productsList;
     if (productSearch.trim()) {
